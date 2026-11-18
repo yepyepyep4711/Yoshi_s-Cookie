@@ -31,9 +31,9 @@ import patch_yoshiscookie as pb  # noqa: E402
 NAME = "Yoshi's Cookie - High-score Save"
 FILE_NAME = "Yoshis Cookie - High-score Save"      # no apostrophe in file names
 # Edit this to name the hardware you tested on (it appears in both READMEs):
-TESTED_ON = ("Tested in BGB and on real hardware, on cartridges with and without save RAM: saving, loading,\n"
-             "high-score reset and soft resets. With save RAM the high-score is kept; without it the game\n"
-             "plays normally and the high-score is not kept.")
+TESTED_ON = ("BGB and real hardware: DMG-GBWR-50 rewritable cartridge and EZ Flash Jr, played on Game Boy,\n"
+             "Game Boy Color, Analogue Pocket and ModRetro Chromatic. Tested: saving, loading, high-score reset\n"
+             "and soft resets.")
 
 
 # ---------------------------------------------------------------- IPS
@@ -403,7 +403,8 @@ def main():
                  tested_on=TESTED_ON)
     hashes = dict(rom_name=src_path.name, size=len(src), crc32=f"{zlib.crc32(src):08X}",
                   md5=hashlib.md5(src).hexdigest().upper(), sha1=hashlib.sha1(src).hexdigest().upper())
-    readme = README.format(repo_note=f" ({a.repo})" if a.repo else "", **names, **hashes,
+    names_txt = dict(names, tested_on=TESTED_ON.replace("\n", "\n  "))   # keep README.txt's indentation
+    readme = README.format(repo_note=f" ({a.repo})" if a.repo else "", **names_txt, **hashes,
                            name=NAME, version=a.version, author=a.author,
                            date=datetime.date.today().isoformat())
     releases_url = f"{a.repo.rstrip('/')}/releases/latest" if a.repo else "../../releases/latest"
